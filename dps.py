@@ -35,8 +35,6 @@ dataset_new[["Pregnancies" , "Glucose", "BloodPressure", "SkinThickness", "Insul
               "DiabetesPedigreeFunction", "Age"]] = dataset_new[["Pregnancies","Glucose", "BloodPressure",
              "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"]].replace(0, np.NaN) 
 
-
-
 # Replacing NaN with mean values
 dataset_new["Pregnancies"].fillna(dataset_new["Pregnancies"].mean(), inplace = True)
 dataset_new["Glucose"].fillna(dataset_new["Glucose"].mean(), inplace = True)
@@ -50,27 +48,3 @@ dataset_new["Age"].fillna(dataset_new["Age"].mean(), inplace = True)
 # Statistical summary
 print("Statistical summary")
 print(dataset_new.describe().T)
-
-# Feature scaling using Min max scaler 
-
-from sklearn.preprocessing import MinMaxScaler
-sc = MinMaxScaler(feature_range = (0,1))
-dataset_scaled = sc.fit_transform(dataset_new)
-
-dataset_scaled = pd.DataFrame(dataset_scaled)
-
-# Selecting features - [Glucose, Insulin, BMI, Age]
-X = dataset_scaled.iloc[:, [1, 2 , 4 , 5 , 7]].values
-Y = dataset_scaled.iloc[:, 8].values
-
-# Splitting X and Y
-from sklearn.model_selection import train_test_split
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.20, random_state = 42, stratify = dataset_new['Outcome'] )
-
-# Checking dimensions
-
-print("Checking dimensions\n")
-print("X_train shape:", X_train.shape)
-print("X_test shape:", X_test.shape)
-print("Y_train shape:", Y_train.shape)
-print("Y_test shape:", Y_test.shape)
