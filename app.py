@@ -126,7 +126,9 @@ def analysis():
                            accuracy_ranfor=accuracy_ranfor)
 
 
-
+@app.route('/visualization')
+def visualization():
+    return render_template('visualization.html')
 
 
 if __name__ == "__main__":

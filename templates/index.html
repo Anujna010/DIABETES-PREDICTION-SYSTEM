@@ -31,6 +31,7 @@
     
 
     <button onclick="goToAnalysisPage()" class="btn btn-primary btn-block btn-large">MODEL ANALYSIS</button>
+    <button onclick="goToDV()" class="btn btn-primary btn-block btn-large">DATA ANALYSIS</button>
 
     
     <script>
@@ -39,11 +40,17 @@
           window.location.href = '{{ url_for("analysis") }}';
       }
   </script>
+  <script>
+    function goToDV(){
+        // Redirect to the analysis.html page using an absolute path
+        window.location.href = '{{ url_for("visualization") }}';
+    }
+</script>
   
     </form>
 
    <br>
-   <br>
+   
    {{ prediction_text }}
 
  </div>
