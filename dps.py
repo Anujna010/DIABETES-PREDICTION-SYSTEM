@@ -192,3 +192,35 @@ print(classification_report(Y_test, Y_pred_knn))
 
 pickle.dump(ranfor, open('model.pkl','wb'))
 model = pickle.load(open('model.pkl','rb'))
+
+import pickle
+
+# Logistic Regression Model
+logreg_model = LogisticRegression(random_state=42)
+logreg_model.fit(X_train, Y_train)
+pickle.dump(logreg_model, open('logreg_model.pkl', 'wb'))
+
+# K Nearest Neighbors Model
+knn_model = KNeighborsClassifier(n_neighbors=24, metric='minkowski', p=2)
+knn_model.fit(X_train, Y_train)
+pickle.dump(knn_model, open('knn_model.pkl', 'wb'))
+
+# Support Vector Classifier Model
+svc_model = SVC(kernel='linear', random_state=42)
+svc_model.fit(X_train, Y_train)
+pickle.dump(svc_model, open('svc_model.pkl', 'wb'))
+
+# Naive Bayes Model
+nb_model = GaussianNB()
+nb_model.fit(X_train, Y_train)
+pickle.dump(nb_model, open('nb_model.pkl', 'wb'))
+
+# Decision Tree Model
+dectree_model = DecisionTreeClassifier(criterion='entropy', random_state=42)
+dectree_model.fit(X_train, Y_train)
+pickle.dump(dectree_model, open('dectree_model.pkl', 'wb'))
+
+# Random Forest Model
+ranfor_model = RandomForestClassifier(n_estimators=11, criterion='entropy', random_state=42)
+ranfor_model.fit(X_train, Y_train)
+pickle.dump(ranfor_model, open('ranfor_model.pkl', 'wb'))

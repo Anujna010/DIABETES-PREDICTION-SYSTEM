@@ -28,6 +28,18 @@
       
       <input type="text" name="Age" placeholder="Age" required="required" />
 		<button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    
+
+    <button onclick="goToAnalysisPage()" class="btn btn-primary btn-block btn-large">Analysis</button>
+
+    
+    <script>
+      function goToAnalysisPage() {
+          // Redirect to the analysis.html page using an absolute path
+          window.location.href = '{{ url_for("analysis") }}';
+      }
+  </script>
+  
     </form>
 
    <br>

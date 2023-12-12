@@ -1,0 +1,51 @@
+<!-- analysis.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Model Analysis</title>
+</head>
+
+<body>
+    <h1>Model Analysis</h1>
+
+    <div>
+        <h2>Logistic Regression Model</h2>
+        <p>Accuracy: {{ accuracy_logreg }}%</p>
+    </div>
+
+    <div>
+        <h2>K Nearest Neighbors Model</h2>
+        <p>Accuracy: {{ accuracy_knn }}%</p>
+    </div>
+
+    <div>
+        <h2>Support Vector Classifier Model</h2>
+        <p>Accuracy: {{ accuracy_svc }}%</p>
+    </div>
+
+    <div>
+        <h2>Naive Bayes Model</h2>
+        <p>Accuracy: {{ accuracy_nb }}%</p>
+    </div>
+
+    <div>
+        <h2>Decision Tree Model</h2>
+        <p>Accuracy: {{ accuracy_dectree }}%</p>
+    </div>
+
+    <div>
+        <h2>Random Forest Model</h2>
+        <p>Accuracy: {{ accuracy_ranfor }}%</p>
+    </div>
+    <div></div>
+    <div>
+        <h2><b>ACCURACY GRAPH</b></h2>
+        <img src="{{ url_for('static', filename='graph_pro.png') }}" alt="Accuracy Graph">
+    </div>
+    
+</body>
+
+</html>
