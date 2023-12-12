@@ -5,47 +5,6 @@ import pickle
 import os
 from sklearn.metrics import accuracy_score
 
-script_dir = os.path.dirname(__file__)
-
-# Set absolute paths for model and data files
-model_file_path = os.path.join(script_dir, 'model.pkl')
-data_file_path = os.path.join(script_dir, 'diabetes.csv')
-
-app = Flask(__name__, static_url_path='/static')
-model = pickle.load(open(model_file_path, 'rb'))
-
-dataset = pd.read_csv(data_file_path)
-
-dataset_X = dataset.iloc[:,[1, 2 , 4 , 5 , 7]].values
-
-from sklearn.preprocessing import MinMaxScaler
-sc = MinMaxScaler(feature_range = (0,1))
-dataset_scaled = sc.fit_transform(dataset_X)
-
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/predict',methods=['POST'])
-def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
-    float_features = [float(x) for x in request.form.values()]
-    final_features = [np.array(float_features)]
-    prediction = model.predict( sc.transform(final_features) )
-
-    if prediction == 1:
-        pred = "You have Diabetes, please consult a Doctor."
-    elif prediction == 0:
-        pred = "You don't have Diabetes."
-    output = pred
-
-    return render_template('index.html', prediction_text='{}'.format(output))
-
-# Add this to your Flask app
-
 # Import necessary libraries
 from flask import render_template
 import pickle
@@ -86,7 +45,50 @@ Y = dataset_scaled.iloc[:, 8].values
 
 from sklearn.model_selection import train_test_split
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.20, random_state = 42, stratify = dataset_new['Outcome'] )
-# ... (previous code)
+
+script_dir = os.path.dirname(__file__)
+
+# Set absolute paths for model and data files
+model_file_path = os.path.join(script_dir, 'model.pkl')
+data_file_path = os.path.join(script_dir, 'diabetes.csv')
+
+app = Flask(__name__, static_url_path='/static')
+model = pickle.load(open(model_file_path, 'rb'))
+
+dataset = pd.read_csv(data_file_path)
+
+dataset_X = dataset.iloc[:,[1, 2 , 4 , 5 , 7]].values
+
+from sklearn.preprocessing import MinMaxScaler
+sc = MinMaxScaler(feature_range = (0,1))
+dataset_scaled = sc.fit_transform(dataset_X)
+
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    '''
+    For rendering results on HTML GUI
+    '''
+    float_features = [float(x) for x in request.form.values()]
+    final_features = np.array(float_features).reshape(1, -1)
+    prediction = model.predict(sc.transform(final_features))
+
+    if prediction == 1:
+        pred = "You have Diabetes, please consult a Doctor."
+    elif prediction == 0:
+        pred = "You don't have Diabetes."
+    output = pred
+
+    return render_template('index.html', prediction_text='{}'.format(output))
+
+
+# Add this to your Flask app
+
+
 
 # Load the pickle files for each model
 logreg_model = pickle.load(open('logreg_model.pkl', 'rb'))
