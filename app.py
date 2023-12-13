@@ -66,24 +66,35 @@ dataset_scaled = sc.fit_transform(dataset_X)
 
 @app.route('/')
 def home():
+    return render_template('home.html')
+
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    if request.method == 'POST':
+        # Retrieve form values
+        float_features = [
+            float(request.form['Glucose Level']),
+            float(request.form['Blood Pressure']),
+            float(request.form['Insulin']),
+            float(request.form['BMI']),
+            float(request.form['Age'])
+        ]
+
+        final_features = np.array(float_features).reshape(1, -1)
+        prediction = model.predict(sc.transform(final_features))
+
+        if prediction == 1:
+            pred = "You have Diabetes, please consult a Doctor."
+        elif prediction == 0:
+            pred = "You don't have Diabetes."
+        output = pred
+
+        return render_template('index.html', prediction_text='{}'.format(output))
+
+    # If it's a GET request, render the form
     return render_template('index.html')
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
-    float_features = [float(x) for x in request.form.values()]
-    final_features = np.array(float_features).reshape(1, -1)
-    prediction = model.predict(sc.transform(final_features))
 
-    if prediction == 1:
-        pred = "You have Diabetes, please consult a Doctor."
-    elif prediction == 0:
-        pred = "You don't have Diabetes."
-    output = pred
-
-    return render_template('index.html', prediction_text='{}'.format(output))
 
 
 # Add this to your Flask app
